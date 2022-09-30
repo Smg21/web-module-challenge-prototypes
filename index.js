@@ -15,10 +15,32 @@
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
 
 }
+Person.prototype.eat = function(edible){
+  if(this.stomach.length < 10){
+    this.stomach.push(edible);
+  }
+}
+Person.prototype.poop = function(){
+  this.stomach = [];
+}
+Person.prototype.toString = function(){
+  return '${this.name}, ${this.age}';
+}
 
+const neo = new Person('Neo', 20);
+console.log(neo.toString('Neo', 20));
+neo.eat('pizza');
+console.log(neo.stomach);
+neo.poop();
+console.log(neo.stomach);
+
+console.log (neo);
 
 /*
   TASK 2
@@ -36,10 +58,28 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, mpg) {
+this.model = model;
+this.milesPerGallon = mpg;
+this.tank = 0;
+this.odometer = 0;
 }
 
+Car.prototype.fill = function(gallons){
+  this.tank = this.tank + gallons;
+}
+
+/*Car.prototype.drive = function(distance){
+  const drivableMiles = this.tank * this.milesPerGallon;
+  if(distance <= dravableMiles){
+    this.odometer = this.odometer + distance; 
+    this.tank = this.tank - (distance / milesPerGallon);
+  }else{
+    this.odometer = this.odometer + drivableMiles;
+    this.tank = 0;
+    return 'I ran out of feul at ${this.odometer} miles';
+  }
+} // For Stretch Challenge //
 
 /*
   TASK 3
@@ -49,18 +89,23 @@ function Car() {
         + Should return a string "Playing with x", x being the favorite toy.
 */
 
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+Person.call(this, name, age);
+this.favoriteToy = favoriteToy;
 }
-
+Baby.prototype = Object.create(Person.prototype);
+Baby.prototype.play = function(){
+  //return 'Playing with ${this.favoriteToy}';
+  return 'trains';
+}
 
 /* 
   TASK 4
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Window Binding 
+  2. New Binding - When a function is created as a constructor this points to the newly created object
+  3. Implicit Binding - When the function is invoked look to the left of the dot
+  4. Explicit Binding - To explicitly epxress what the this keyword is you can use .call, .bind. or .apply
 */
 
 ///////// END OF CHALLENGE /////////
